@@ -3,8 +3,9 @@ jQuery(document).ready(function(){
 
 
 	
-	var options= {
-		action: "/",
+	var default_options= {
+		title: "My Magic Form",
+		action: "#",
 		class: "rsvp_form",
 		id: "",
 		method: "POST",    		//POST or GET
@@ -12,15 +13,16 @@ jQuery(document).ready(function(){
 		layout: ""  	//stacked or horizontal
 	};
 	
-	var schema = [
+	var default_schema = [
 					{
 						name: "user",
 						label: "User",
 						type: "text",
 						id: "username",
 						class: "",
-						value: "Something1",
-						required: "Y"
+						value: "",
+						required: "Y",
+						placeholder: "Your Username"
 					},
 					{
 						name: "key",
@@ -37,8 +39,9 @@ jQuery(document).ready(function(){
 						type: "email",
 						id: "email",
 						class: "",
-						value: "Something@something.com",
-						required: "Y"
+						value: "",
+						required: "Y",
+						placeholder: "Your Email Address"
 					},
 					{
 						name: "password",
@@ -47,7 +50,7 @@ jQuery(document).ready(function(){
 						id: "pass",
 						class: "passField",
 						value: "",
-						placeholder: "Password"
+						placeholder: "Your Password"
 					},
 					{
 						name: "submit",
@@ -57,26 +60,52 @@ jQuery(document).ready(function(){
 						value: "Save"
 					}
 				];
-
+	$('#genSchema').val(JSON.stringify(default_schema, null, "\t"));
+	$('#genOptions').val(JSON.stringify(default_options, null, "\t"));
 	
-	$('#formSpace').append(BuildForm(options, schema));
 	
+	//Build the form
+	var default_form = BuildForm(default_options, default_schema);
+	$('#formSpace').html(default_form);
+	$('#codeSpace').text(default_form);
 	
+	$('#generator').submit(UpdateForm);
+	$('#genOptions').on('change', UpdateForm);
+	$('#genSchema').on('change', UpdateForm);
+	
+	function UpdateForm(e) {
+		e.preventDefault();
+		console.log("Updating...");
+		$('#formSpace').html(" ");
+		$('#codeSpace').html(" ");
+		try {
+			var opt = JSON.parse($('#genOptions').val());
+			var sch = JSON.parse($('#genSchema').val());
+			var frm = BuildForm(opt, sch)
+			$('#formSpace').html(frm);
+			$('#codeSpace').text(frm);
+		} catch(e) {
+			$('#formSpace').html('<p class="bg-danger" style="padding:25px; margin-top:25px;">Failed to parse JSON. Check your Markup!</p>');
+			$('#codeSpace').html('<p class="bg-danger" style="padding:25px; margin-top:25px;">Failed to parse JSON. Check your Markup!</p>');
+			console.log("Failed!");
+		}
+	};
 		
 	function BuildForm(options, schema) {
 		//TODO: Check options object here
-	
-		var text = '<form action="'+options.action+'" class="'+((options.layout === "horizontal") ? "form-horizontal " : "" )+''+options.class+'" id="'+options.id+'" method="'+options.method+'" role="form">';
+		var text = "";
+		text += '<h1>'+options.title+'</h1>\r\n';
+		text += '<form action="'+options.action+'" class="'+((options.layout === "horizontal") ? "form-horizontal " : "" )+''+options.class+'" id="'+options.id+'" method="'+options.method+'" role="form">\r\n';
 		schema.forEach(function (entry) {
-			text += AddField(entry);
+			text += AddField(options, entry);
 		});
 		
-		text += '</form>';
+		text += '</form>\r\n';
 		if(options.validate === "Y") { $('.rsvp_form').validate(); }
 		return text;
 	}
 	
-	function AddField(sItem) {
+	function AddField(options, sItem) {
 		var retVal = "";
 		switch(sItem.type){
 			case "text":
@@ -109,20 +138,20 @@ jQuery(document).ready(function(){
 		sItem.required = sItem.required || "N";
 		sItem.placeholder = sItem.placeholder || "";
 		
-		return 	'<div class="form-group">\r\n'+
-				'<label for="form-control '+sItem.name+'" '+
+		return 	'\t<div class="form-group">\r\n'+
+				'\t\t<label for="form-control '+sItem.name+'" '+
 					'class="'+((options.layout === "horizontal") ? "col-sm-2 " : "" )+'control-label">'+
 					sItem.label+
 				'</label>\r\n'+
-				'<div class="'+((options.layout === "horizontal") ? "col-sm-10 " : "" )+'">'+
-				'<input type="'+sItem.type+'" '+
+				'\t\t<div class="'+((options.layout === "horizontal") ? "col-sm-10 " : "" )+'">\r\n'+
+				'\t\t\t<input type="'+sItem.type+'" '+
 					'class="form-control '+sItem.class+'" '+
 					'id="'+sItem.id+'" '+
 					'value="'+sItem.value+'" '+
 					'name="'+sItem.name+'" '+
 					'placeholder="'+sItem.placeholder+'"'+
 					((sItem.required === "Y") ? 'required' : '')+
-				' /></div></div>\r\n';
+				' />\r\n\t\t</div>\r\n\t</div>\r\n';
 	}
 
 	function AddEmailField(options, sItem) {
@@ -134,21 +163,21 @@ jQuery(document).ready(function(){
 		sItem.required = sItem.required || "N";
 		sItem.placeholder = sItem.placeholder || "";
 		
-		return 	'<div class="form-group">\r\n'+
-					'<label for="form-control '+sItem.name+'" '+
+		return 	'\t<div class="form-group">\r\n'+
+					'\t\t<label for="form-control '+sItem.name+'" '+
 						'class="'+((options.layout === "horizontal") ? "col-sm-2 " : "" )+'control-label">'+
 						sItem.label+'</label>\r\n'+
-					'<div class="'+((options.layout === "horizontal") ? "col-sm-10 controls " : "" )+'controls">'+
-						'<div class="input-group">'+
-							'<span class="input-group-addon">@</span>'+
-							'<input type="'+sItem.type+'" '+
+					'\t\t<div class="'+((options.layout === "horizontal") ? "col-sm-10 controls " : "" )+'controls">\r\n'+
+						'\t\t\t<div class="input-group">\r\n'+
+							'\t\t\t\t<span class="input-group-addon">@</span>\r\n'+
+							'\t\t\t\t<input type="'+sItem.type+'" '+
 								'class="form-control '+sItem.class+'" '+
 								'id="'+sItem.id+'" '+
 								'value="'+sItem.value+'" '+
 								'name="'+sItem.name+'" '+
 								'placeholder="'+sItem.placeholder+'"'+
 								((sItem.required === "Y") ? 'required' : '')+
-				' /></div></div></div>\r\n';
+				' />\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n';
 	}
 	
 	function AddHiddenField(options, sItem) {
@@ -158,7 +187,7 @@ jQuery(document).ready(function(){
 		sItem.name = sItem.name || "";
 		sItem.value = sItem.value || "";
 		sItem.required = sItem.required || "N";
-		return 	'<input type="'+sItem.type+'" '+
+		return 	'\t<input type="'+sItem.type+'" '+
 					'class="form-control '+sItem.class+'" '+
 					'id="'+sItem.id+'" '+
 					'value="'+sItem.value+'" '+
@@ -172,12 +201,12 @@ jQuery(document).ready(function(){
 		sItem.id = sItem.id || "";
 		sItem.name = sItem.name || "";
 		sItem.value = sItem.value || "";
-		return 	'<div class="'+((options.layout === "horizontal") ? "col-sm-offset-2 col-sm-10 " : "" )+'">'+
-				'<input type="'+sItem.type+'" '+
+		return 	'\t<div class="'+((options.layout === "horizontal") ? "col-sm-offset-2 col-sm-10 " : "" )+'">\r\n'+
+				'\t\t<input type="'+sItem.type+'" '+
 					'class="btn btn-default '+sItem.class+'" '+
 					'id="'+sItem.id+'" '+
 					'value="'+sItem.value+'" '+
 					'name="'+sItem.name+'" '+
-				' /></div>\r\n';
+				' />\r\n\t</div>\r\n';
 	}
 });
