@@ -10,7 +10,7 @@ jQuery(document).ready(function(){
 		id: "",
 		method: "POST",    		//POST or GET
 		validate: "Y",     		//Y or N
-		layout: ""  	//stacked or horizontal
+		layout: "horizontal"  	//stacked or horizontal
 	};
 	
 	var default_schema = [
@@ -99,6 +99,52 @@ jQuery(document).ready(function(){
 					"selected":"true"
 				}
 			]
+		},		
+		{
+			"name":"set2",
+			"label": "Details",
+			"type": "fieldset",
+			"inherit" : "true",
+			"fields":[
+				{
+					"name": "cblist1",
+					"label": "CheckBox1",
+					"type": "checkboxlist",
+					"id": "cd2",
+					"class": "",
+					"options": [
+						{
+							"name":"opt1",
+							"value":"Option #1",
+							"selected":"true"
+						},{
+							"name":"opt2",
+							"value":"Option #2"
+						},{
+							"name":"opt3",
+							"value":"Option #3",
+							"selected":"true"
+						}
+					]
+				},
+				{
+					"name": "rdlist1",
+					"label": "RadioList1",
+					"type": "radiolist",
+					"id": "rl2",
+					"class": "radiolist123",
+					"options": [
+						{
+							"name":"opt1",
+							"value":"Option #1",
+							"selected":"true"
+						},{
+							"name":"opt2",
+							"value":"Option #2"
+						}
+					]
+				}
+			]
 		},
 		{
 			"name": "submit",
@@ -177,6 +223,12 @@ jQuery(document).ready(function(){
 			case "dropdown":
 				retVal = AddDropdownField(options, sItem);
 				break;	
+			case "checkboxlist":
+				retVal = AddCheckboxList(options, sItem);
+				break;	
+			case "radiolist":
+				retVal = AddRadioList(options, sItem);
+				break;					
 			case "hidden":
 				retVal = AddHiddenField(options, sItem);
 				break;	
@@ -233,7 +285,7 @@ jQuery(document).ready(function(){
 					'\t\t<label for="form-control '+sItem.name+'" '+
 						'class="'+((options.layout === "horizontal") ? "col-sm-2 " : "" )+'control-label">'+
 						sItem.label+'</label>\r\n'+
-					'\t\t<div class="'+((options.layout === "horizontal") ? "col-sm-10 controls " : "" )+'controls">\r\n'+
+					'\t\t<div class="'+((options.layout === "horizontal") ? "col-sm-10 " : "" )+'controls">\r\n'+
 						'\t\t\t<div class="input-group">\r\n'+
 							'\t\t\t\t<span class="input-group-addon">@</span>\r\n'+
 							'\t\t\t\t<input type="'+sItem.type+'" '+
@@ -312,30 +364,98 @@ jQuery(document).ready(function(){
 		sItem.id = sItem.id || "";
 		sItem.name = sItem.name || "submitBtn";
 		sItem.value = sItem.value || "Save";
-		return 	'\t<div class="'+((options.layout === "horizontal") ? "col-sm-offset-2 col-sm-10 " : "" )+'">\r\n'+
-				'\t\t<input type="'+sItem.type+'" '+
+		return 	'\t<div class="form-group">\r\n'+
+				'\t\t<div class="'+((options.layout === "horizontal") ? "col-sm-offset-2 col-sm-10 " : "" )+'">\r\n'+
+				'\t\t\t<input type="'+sItem.type+'" '+
 					'class="btn btn-default '+sItem.class+'" '+
 					'id="'+sItem.id+'" '+
 					'value="'+sItem.value+'" '+
 					'name="'+sItem.name+'" '+
-				' />\r\n\t</div>\r\n';
+				' />\r\n\t\t</div>\r\n\t</div>\r\n';
 	}
 	function AddResetButton(options, sItem) {
 		sItem.class = sItem.class || "";
 		sItem.id = sItem.id || "";
 		sItem.name = sItem.name || "resetBtn";
 		sItem.value = sItem.value || "Reset";
-		return 	'\t<div class="'+((options.layout === "horizontal") ? "col-sm-offset-2 col-sm-10 " : "" )+'">\r\n'+
-				'\t\t<input type="'+sItem.type+'" '+
+		return 	'\t<div class="form-group">\r\n'+
+				'\t\t<div class="'+((options.layout === "horizontal") ? "col-sm-offset-2 col-sm-10 " : "" )+'">\r\n'+
+				'\t\t\t<input type="'+sItem.type+'" '+
 					'class="btn btn-default '+sItem.class+'" '+
 					'id="'+sItem.id+'" '+
 					'value="'+sItem.value+'" '+
 					'name="'+sItem.name+'" '+
-				' />\r\n\t</div>\r\n';
+				' />\r\n\t\t</div>\r\n\t</div>\r\n';
+	}
+	
+	function AddCheckboxList(options, sItem) {
+		sItem.name = sItem.name || "checkbox";
+		sItem.label = sItem.label || "Undefined";
+		
+		if (typeof sItem.options !== 'undefined' && sItem.options.length > 0) {
+			var asembleFields = "";
+			sItem.options.forEach(function (entry) {
+				entry.name = sItem.name+'[]';
+				entry.value = entry.value || "undefined";
+				entry.selected = entry.selected || "false";
+				
+				var selected = (entry.selected == "true");
+				asembleFields += 	'\t\t\t\t<div class="checkbox">\r\n'+
+									'\t\t\t\t\t<label>\r\n'+
+									'\t\t\t\t\t\t<input type="checkbox" value="" name="'+
+									entry.name +'" '+
+									((selected == true) ? 'checked="checked"':'') + '>\r\n'+
+									'\t\t\t\t\t\t'+entry.value + '\r\n'+
+									'\t\t\t\t\t</label>\r\n\t\t\t\t</div>\r\n';
+			});
+			
+			return 	'\t<div class="form-group">\r\n'+
+					'\t\t<label for="form-control '+sItem.name+'" '+
+						'class="'+((options.layout === "horizontal") ? "col-sm-2 " : "" )+'control-label">'+
+						sItem.label+'</label>\r\n'+
+					'\t\t<div class="'+((options.layout === "horizontal") ? "col-sm-10 " : "" )+'controls">\r\n'+
+						'\t\t\t<div class="input-group">\r\n'+
+						asembleFields + 
+					'\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n';
+					
+		}	
+	}
+	
+	function AddRadioList(options, sItem) {
+		sItem.name = sItem.name || "checkbox";
+		sItem.label = sItem.label || "Undefined";
+		
+		if (typeof sItem.options !== 'undefined' && sItem.options.length > 0) {
+			var asembleFields = "";
+			sItem.options.forEach(function (entry) {
+				entry.name = sItem.name+'[]';
+				entry.value = entry.value || "undefined";
+				entry.selected = entry.selected || "false";
+				
+				var selected = (entry.selected == "true");
+				asembleFields += 	'\t\t\t\t<div class="radio">\r\n'+
+									'\t\t\t\t\t<label>\r\n'+
+									'\t\t\t\t\t\t<input type="radio" value="" name="'+
+									entry.name +'" '+
+									((selected == true) ? 'checked="checked"':'') + '>\r\n'+
+									'\t\t\t\t\t\t'+entry.value + '\r\n'+
+									'\t\t\t\t\t</label>\r\n\t\t\t\t</div>\r\n';
+			});
+			
+			return 	'\t<div class="form-group">\r\n'+
+					'\t\t<label for="form-control '+sItem.name+'" '+
+						'class="'+((options.layout === "horizontal") ? "col-sm-2 " : "" )+'control-label">'+
+						sItem.label+'</label>\r\n'+
+					'\t\t<div class="'+((options.layout === "horizontal") ? "col-sm-10 " : "" )+'controls">\r\n'+
+						'\t\t\t<div class="input-group">\r\n'+
+						asembleFields + 
+					'\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n';
+					
+		}	
 	}
 	
 	function AddFieldset(options, sItem) {
-		sItem.label = sItem.label || "Undefined";
+		sItem.label = sItem.label || "";
 		sItem.name = sItem.name || "fieldset";
 		sItem.inherit = sItem.inherit || "false";
 		
