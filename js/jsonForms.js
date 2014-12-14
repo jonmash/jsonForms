@@ -17,26 +17,33 @@ jsonForms = (function ($) {
 	var me = {};
 	
 	me.BuildForm = function (options, schema) {
-		//TODO: Check options object here
+	
+		options.layout = options.layout || "horizontal";
+		options.action = options.action || "";
+		options.class = options.class || "";
+		options.id = options.id || "";
+		options.method = options.method || "post";
+		options.validate = options.validate || "Y";
+		
 		var container = $('<div />').addClass('jsonform-container');
 		
-		var heading = 	$('<h1 />')
-						.text(options.title);
+		var hdng = 	$('<h1 />')
+					.text(options.title);
 
-		var form = 		$('<form />')
-						.attr("action", options.action)
-						.addClass(((options.layout === "horizontal") ? "form-horizontal " : "" ))
-						.addClass(options.class)
-						.addClass('rsvp_form')
-						.attr('id', options.id)
-						.attr('method', options.method)
-						.attr('role', 'form');
+		var form = 	$('<form />')
+					.attr("action", options.action)
+					.addClass(((options.layout === "horizontal") ? "form-horizontal " : "" ))
+					.addClass(options.class)
+					.addClass('rsvp_form')
+					.attr('id', options.id)
+					.attr('method', options.method)
+					.attr('role', 'form');
 					
 		schema.forEach(function (entry) {
 			form = form.append(AddField(options, entry));
 		});
 		
-		container = container.append(heading).append(form);
+		container = container.append(hdng).append(form);
 		
 		if(options.validate === "Y") { $('.rsvp_form').validate(); }
 		return container;
