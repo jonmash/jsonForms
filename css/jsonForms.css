@@ -9,6 +9,10 @@
 	margin-top:15px;
 }
 
+.jsonform-container {
+	margin: 5px;
+}
+
 .str { color:#181; font-style:italic }
 .kwd { color:#369 }
 .com { color:#666 }
