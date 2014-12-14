@@ -1,5 +1,5 @@
 /*! 
-	* jForms v0.1.1
+	* jsonForms v0.1.1
 	* (c) 2014 jMash 
 	*   jonmash.ca 
 	*   github.com/jonmash 
@@ -13,15 +13,33 @@ if(!jQuery().validate) {
 	throw new Error('jQuery validate not loaded');
 }
 
+jQuery.validator.setDefaults({
+    errorElement: "span",
+    errorClass: "help-block",
+    highlight: function (element, errorClass, validClass) {
+        $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).closest('.form-group').removeClass('has-error');
+    },
+    errorPlacement: function (error, element) {
+        if (element.parent('.input-group').length || element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+            error.insertAfter(element.parent());
+        } else {
+            error.insertAfter(element);
+        }
+    }
+});
+
 jsonForms = (function ($) {
 	var me = {};
 	
-	me.BuildForm = function (options, schema) {
+	me.BuildForm = function (options, schema, submitCallback) {
 	
 		options.layout = options.layout || "horizontal";
 		options.action = options.action || "";
 		options.class = options.class || "";
-		options.id = options.id || "";
+		options.id = options.id || makeID(5);
 		options.method = options.method || "post";
 		options.validate = options.validate || "Y";
 		
@@ -37,7 +55,8 @@ jsonForms = (function ($) {
 					.addClass('rsvp_form')
 					.attr('id', options.id)
 					.attr('method', options.method)
-					.attr('role', 'form');
+					.attr('role', 'form')
+					.attr('enctype', 'multipart/form-data');
 					
 		schema.forEach(function (entry) {
 			form = form.append(AddField(options, entry));
@@ -45,7 +64,10 @@ jsonForms = (function ($) {
 		
 		container = container.append(hdng).append(form);
 		
-		if(options.validate === "Y") { $('.rsvp_form').validate(); }
+		if(options.validate === "Y") { form.validate(); }
+		
+		form.submit(submitCallback);
+		
 		return container;
 	}
 
@@ -291,9 +313,9 @@ jsonForms = (function ($) {
 						.addClass('controls');
 			var igrp =  $('<div />').addClass('input-group');
 			
-			sItem.options.forEach(function (entry) {
-				entry.name = sItem.name+'[]';
-				entry.value = entry.value || "undefined";
+			sItem.options.forEach(function (entry, i) {
+				entry.name = entry.name || "cb"+i;
+				entry.value = entry.value || "cb"+i;
 				entry.selected = entry.selected || "false";
 				
 				var selected = (entry.selected == "true");
@@ -302,7 +324,8 @@ jsonForms = (function ($) {
 				var lbl2 = 	$('<label />').text(entry.value);
 				var inp = 	$('<input />')
 							.attr('type', 'checkbox')
-							.attr('name', entry.name);
+							.attr('name', sItem.name+'[]')
+							.attr('value', entry.name);
 				
 				if(selected) inp = inp.prop('checked', true);
 							
@@ -334,9 +357,10 @@ jsonForms = (function ($) {
 						.addClass('controls');
 			var igrp =  $('<div />').addClass('input-group');
 			
-			sItem.options.forEach(function (entry) {
-				entry.name = sItem.name+'[]';
-				entry.value = entry.value || "undefined";
+			sItem.options.forEach(function (entry, i) {
+				//entry.name = (entry.name ? sItem.name+'['+entry.name+']' : sItem.name+'['+i+']');
+				entry.value = entry.value || "opt"+i;
+				entry.name = entry.name || "opt"+i;
 				entry.selected = entry.selected || "false";
 				
 				var selected = (entry.selected == "true");
@@ -345,7 +369,8 @@ jsonForms = (function ($) {
 				var lbl2 = 	$('<label />').text(entry.value);
 				var inp = 	$('<input />')
 							.attr('type', 'radio')
-							.attr('name', entry.name);
+							.attr('name', sItem.name+'[]')
+							.attr('value', entry.name);
 				
 				if(selected) inp = inp.prop('checked', true);
 							
@@ -386,6 +411,17 @@ jsonForms = (function ($) {
 		}	
 	}
 	
+	function makeID(n)
+	{
+		n = parseInt(n) || 5;
+		var text = "";
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+		for( var i=0; i < n; i++ )
+			text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+		return text;
+	}
 	
 	return me;
 }(jQuery));

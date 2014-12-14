@@ -1,6 +1,6 @@
 /*! 
 	* Demo Page for
-	* jForms v0.1.1
+	* jsonForms v0.1.1
 	* (c) 2014 jMash 
 	*   jonmash.ca 
 	*   github.com/jonmash 
@@ -110,7 +110,7 @@ jQuery(document).ready(function(){
 			"name":"set2",
 			"label": "Details",
 			"type": "fieldset",
-			"inherit" : "true",
+			"inherit" : "false",
 			"fields":[
 				{
 					"name": "cblist1",
@@ -178,7 +178,7 @@ jQuery(document).ready(function(){
 	$('#genOptions').val(JSON.stringify(default_options, null, "  "));
 	
 	//Build the form
-	var default_form = jsonForms.BuildForm(default_options, default_schema);
+	var default_form = jsonForms.BuildForm(default_options, default_schema, FormSubmitted);
 	$('#formSpace').html(default_form);
 	$('#codeSpace').text(default_form.html());
 	makeReadable();
@@ -187,6 +187,12 @@ jQuery(document).ready(function(){
 	$('#generator').submit(UpdateForm);
 	$('#genOptions').on('input propertychange paste', UpdateForm);
 	$('#genSchema').on('input propertychange paste', UpdateForm);
+	
+	function FormSubmitted(e) {
+		e.preventDefault();
+		var values = $(this).serialize();
+		$('#respSpace').html("Submitted" + decodeURI(values));
+	}
 	
 	function UpdateForm(e) {
 		if(e.type != "paste") 
