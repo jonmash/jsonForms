@@ -1,21 +1,14 @@
-myForms
-=======
-See this:
-https://htmlpreview.github.io/?https://github.com/jonmash/jsonForms/blob/master/test.html
-
-
 jsonForms
 =========
 
 The jsonForms library is a small JavaScript client-side library that takes 
-a set of options and a structured data model defined using JSON schema-like 
-object as input and returns a [Bootstrap](http://getbootstrap.com/)-friendly
-HTML form that matches the schema.
+a set of options and a structured JSON data model as input and returns a 
+[Bootstrap](http://getbootstrap.com/)-friendly HTML form that matches the schema.
 
-The generated form includes client-side validation logic using jQuery-validate 
-that provides instant feedback to the user upon submission. If all the field 
-values are valid, then the form is submitted and a customizable callback is 
-issued.
+The generated form includes client-side validation logic using 
+[jQuery Validate](http://jqueryvalidation.org/) that provides instant feedback 
+to the user upon submission. If all the field values are valid, then the form 
+is submitted and a customizable callback is issued.
 
 Getting started
 ---------------
