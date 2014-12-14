@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jsonForms Simple Example</title>
+	
+	<link href="../css/bootstra4p.min.css" rel="stylesheet">
+  </head>
+  <body>
+	<div class="row">
+		<div class="col-md-3">&nbsp;</div>
+		<div class="col-md-6">
+			<div id="formSpace"><small>Loading...</small></div><br />
+		</div>
+		<div class="col-md-3">&nbsp;</div>
+	</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="../js/jquery.validate.min.js"></script>
+	<script src="../js/jsonForms.js"></script>
+	<script type="text/javascript">
+		var schema = [
+			{
+				"name": "email",
+				"label": "Email",
+				"type": "email",
+				"required": "Y"
+			},
+			{
+				"name": "password",
+				"label": "Password",
+				"type": "password",
+				"required": "Y"
+			},
+			{
+				"name": "submit",
+				"type": "submit",
+				"value": "Login"
+			}
+		];
+		$('#formSpace').html(jsonForms.BuildForm(null, schema));
+	</script>
+  </body>
+</html>
