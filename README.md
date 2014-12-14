@@ -64,6 +64,8 @@ user's name is a required field, while the age is optional.
 </html>
 ```
 
+[See the example in action here](https://rawgit.com/jonmash/jsonForms/master/examples/simple.html)
+
 Loading this page in a browser renders a form with two input fields and a submit button. 
 Both of the fields implement the ```required``` option meaning that if nothing is entered, 
 an error message will be displayed.
