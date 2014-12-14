@@ -1,0 +1,22 @@
+.error-box {
+	padding:25px; 
+	margin-top:25px;
+}
+
+.html-box {
+	overflow-x:scroll;
+	word-wrap:normal;
+	margin-top:15px;
+}
+
+.str { color:#181; font-style:italic }
+.kwd { color:#369 }
+.com { color:#666 }
+.typ { color:#c40 }
+.lit { color:#900 }
+.pun { color:#000; font-weight:bold  }
+.pln { color:#333 }
+.tag { color:#369; font-weight:bold  }
+.atn { color:#939; font-weight:bold  }
+.atv { color:#181 }
+.dec { color:#606 }
