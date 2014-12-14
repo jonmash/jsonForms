@@ -35,12 +35,15 @@ jsonForms = (function ($) {
 	var me = {};
 	
 	me.BuildForm = function (options, schema, submitCallback) {
-	
-		options.layout = options.layout || "horizontal";
-		options.action = options.action || "";
-		options.class = options.class || "";
-		options.id = options.id || makeID(5);
-		options.method = options.method || "post";
+		if(!options) options = {};
+		if(!schema) throw new Error('Schema not specified');
+		
+		options.title    = options.title    || "";
+		options.layout   = options.layout   || "horizontal";
+		options.action   = options.action   || "";
+		options.class    = options.class    || "";
+		options.id       = options.id       || makeID(5);
+		options.method   = options.method   || "post";
 		options.validate = options.validate || "Y";
 		
 		var container = $('<div />').addClass('jsonform-container');
@@ -55,8 +58,8 @@ jsonForms = (function ($) {
 					.addClass('rsvp_form')
 					.attr('id', options.id)
 					.attr('method', options.method)
-					.attr('role', 'form')
-					.attr('enctype', 'multipart/form-data');
+					.attr('role', 'form');
+					//.attr('enctype', 'multipart/form-data');
 					
 		schema.forEach(function (entry) {
 			form = form.append(AddField(options, entry));
@@ -78,7 +81,7 @@ jsonForms = (function ($) {
 				retVal = AddTextField(options, sItem);
 				break;
 			case "password":
-				retVal = AddTextField(options, sItem);
+				retVal = AddPasswordField(options, sItem);
 				break;
 			case "email":
 				retVal = AddEmailField(options, sItem);
@@ -129,6 +132,39 @@ jsonForms = (function ($) {
 		var clmn = 	$('<div />').addClass(((options.layout === "horizontal") ? "col-sm-10 " : "" ));
 		var fld  = 	$('<input />')
 					.attr('type', 'text')
+					.addClass('form-control')
+					.addClass(sItem.class)
+					.attr('id', sItem.id)
+					.attr('value', sItem.value)
+					.attr('name', sItem.name)
+					.attr('placeholder', sItem.placeholder)
+					.prop('required',(sItem.required === "Y"));
+					
+		grp  = grp.append(lbl);
+		clmn = clmn.append(fld);
+		grp  = grp.append(clmn);
+		
+		return grp;
+	}
+	
+	function AddPasswordField(options, sItem) {
+		sItem.label = sItem.label || "Undefined";
+		sItem.class = sItem.class || "";
+		sItem.id = sItem.id || "";
+		sItem.name = sItem.name || "txtField";
+		sItem.value = sItem.value || "";
+		sItem.required = sItem.required || "N";
+		sItem.placeholder = sItem.placeholder || "";
+		
+		var grp  = 	$('<div />').addClass('form-group');
+		var lbl  = 	$('<label />')
+					.attr('for', sItem.name)
+					.addClass(((options.layout === "horizontal") ? "col-sm-2 " : "" ))
+					.addClass('control-label')
+					.text(sItem.label);
+		var clmn = 	$('<div />').addClass(((options.layout === "horizontal") ? "col-sm-10 " : "" ));
+		var fld  = 	$('<input />')
+					.attr('type', 'password')
 					.addClass('form-control')
 					.addClass(sItem.class)
 					.attr('id', sItem.id)
