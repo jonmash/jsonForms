@@ -1,3 +1,12 @@
+/*! 
+	* Demo Page for
+	* jForms v0.1.1
+	* (c) 2014 jMash 
+	*   jonmash.ca 
+	*   github.com/jonmash 
+	* Released under the MIT license
+*/
+
 jQuery(document).ready(function(){
 
 	var default_options= {
