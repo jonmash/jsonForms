@@ -25,7 +25,7 @@ user's name is a required field, while the age is optional.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>jsonForms Simple Example</title>
 	
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
+	<link href="bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
 	<div class="row">
@@ -35,9 +35,9 @@ user's name is a required field, while the age is optional.
 		</div>
 		<div class="col-md-3">&nbsp;</div>
 	</div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="../js/jquery.validate.min.js"></script>
-	<script src="../js/jsonForms.js"></script>
+    <script src="jquery.min.js"></script>
+	<script src="jquery.validate.min.js"></script>
+	<script src="jsonForms.js"></script>
 	<script type="text/javascript">
 		var schema = [
 			{
@@ -64,7 +64,7 @@ user's name is a required field, while the age is optional.
 </html>
 ```
 
-[See the example in action here](https://rawgit.com/jonmash/jsonForms/master/examples/simple.html)
+[See the example in action here](https://rawgit.com/jonmash/jsonForms/master/examples/simple/simple.html)
 
 Loading this page in a browser renders a form with two input fields and a submit button. 
 Both of the fields implement the ```required``` option meaning that if nothing is entered, 
@@ -81,7 +81,7 @@ that fieldsets, checkboxes, dropdown menus, etc. For more information, check the
 Sandbox
 -------
 If you're more of a do'er type than a reader, the 
-[jsonForms Sandbox](https://rawgit.com/jonmash/jsonForms/master/test.html) is a simple 
+[jsonForms Sandbox](https://rawgit.com/jonmash/jsonForms/master/examples/sandbox/sandbox.html) is a simple 
 jsonForms powered editor that lets you try out and extend all the examples in the doc.
 
 
