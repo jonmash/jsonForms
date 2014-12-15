@@ -86,6 +86,9 @@ jsonForms = (function ($) {
 			case "email":
 				retVal = AddEmailField(options, sItem);
 				break;	
+			case "url":
+				retVal = AddURLField(options, sItem);
+				break;	
 			case "dropdown":
 				retVal = AddDropdownField(options, sItem);
 				break;	
@@ -197,7 +200,7 @@ jsonForms = (function ($) {
 					.text(sItem.label);
 		var clmn = 	$('<div />').addClass(((options.layout === "horizontal") ? "col-sm-10 " : "" ));
 		var igrp = 	$('<div />').addClass('input-group');
-		var span =  $('<span />').addClass('input-group-addon').text('@');
+		var span =  $('<span />').addClass('input-group-addon').html('<span class="glyphicon glyphicon-envelope"></span>');
 		var fld  = 	$('<input />')
 					.attr('type', 'email')
 					.addClass('form-control')
@@ -216,6 +219,42 @@ jsonForms = (function ($) {
 		return grp;
 	}
 
+	function AddURLField(options, sItem) {
+		sItem.label = sItem.label || "Undefined";
+		sItem.class = sItem.class || "";
+		sItem.id = sItem.id || "";
+		sItem.name = sItem.name || "url";
+		sItem.value = sItem.value || "";
+		sItem.required = sItem.required || "N";
+		sItem.placeholder = sItem.placeholder || "";
+		
+		var grp  = 	$('<div />').addClass('form-group');
+		var lbl  = 	$('<label />')
+					.attr('for', sItem.name)
+					.addClass(((options.layout === "horizontal") ? "col-sm-2 " : "" ))
+					.addClass('control-label')
+					.text(sItem.label);
+		var clmn = 	$('<div />').addClass(((options.layout === "horizontal") ? "col-sm-10 " : "" ));
+		var igrp = 	$('<div />').addClass('input-group');
+		var span =  $('<span />').addClass('input-group-addon').text('@');
+		var fld  = 	$('<input />')
+					.attr('type', 'url')
+					.addClass('form-control')
+					.addClass(sItem.class)
+					.attr('id', sItem.id)
+					.attr('value', sItem.value)
+					.attr('name', sItem.name)
+					.attr('placeholder', sItem.placeholder)
+					.prop('required',(sItem.required === "Y"));
+
+		grp  = grp.append(lbl);
+		igrp = igrp.append(span).append(fld);
+		clmn = clmn.append(igrp);
+		grp  = grp.append(clmn);
+					
+		return grp;
+	}
+	
 	function AddDropdownField(options, sItem) {
 		sItem.label = sItem.label || "Undefined";
 		sItem.class = sItem.class || "";

@@ -384,6 +384,7 @@
     "forms.less",
     "buttons.less",
     "responsive-utilities.less",
+    "glyphicons.less",
     "button-groups.less",
     "input-groups.less",
     "labels.less",
@@ -391,5 +392,5 @@
     "panels.less"
   ],
   "js": [],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=a89b4f98ab83543dc730"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=93f925609ae148b32774"
 }

@@ -60,6 +60,14 @@ jQuery(document).ready(function(){
 			"placeholder": "Your Email Address"
 		},
 		{
+			"name": "url",
+			"label": "Link",
+			"type": "url",
+			"id": "url",
+			"required": "Y",
+			"placeholder": "Include a link..."
+		},
+		{
 			"name": "dropdown1",
 			"label": "Dropdown",
 			"type": "dropdown",
