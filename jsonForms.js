@@ -199,7 +199,7 @@ jsonForms = (function ($) {
 		var igrp = 	$('<div />').addClass('input-group');
 		var span =  $('<span />').addClass('input-group-addon').text('@');
 		var fld  = 	$('<input />')
-					.attr('type', 'text')
+					.attr('type', 'email')
 					.addClass('form-control')
 					.addClass(sItem.class)
 					.attr('id', sItem.id)
