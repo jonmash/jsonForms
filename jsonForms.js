@@ -236,7 +236,7 @@ jsonForms = (function ($) {
 					.text(sItem.label);
 		var clmn = 	$('<div />').addClass(((options.layout === "horizontal") ? "col-sm-10 " : "" ));
 		var igrp = 	$('<div />').addClass('input-group');
-		var span =  $('<span />').addClass('input-group-addon').text('@');
+		var span =  $('<span />').addClass('input-group-addon').html('<span class="glyphicon glyphicon-link"></span>');
 		var fld  = 	$('<input />')
 					.attr('type', 'url')
 					.addClass('form-control')
