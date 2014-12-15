@@ -13,7 +13,8 @@
 	<div class="row">
 		<div class="col-md-1">&nbsp;</div>
 		<div class="col-md-5">
-			<h1>Editor</h1>
+			<h1>jsonForms Editor</h1>
+			<p>Edit the schema and options below and see a live generated form.</p>
 			<form id="generator" role="form">
 				<div class="form-group">
 					<label for="schema">Schema:</label>
@@ -23,12 +24,15 @@
 					<label for="options">Options:</label>
 					<textarea name="options" class="form-control" id="genOptions" rows="10"></textarea>
 				</div>
+				<p>The form is updated automatically when you change the schema/options above. You can click this button just to be sure. </p>
 				<button type="submit" class="btn btn-default">Submit</button>
 			</form>
 		</div>
 		<div class="col-md-5">
-			<div id="formSpace"><h1>Loading...</h1></div><br />
+			<div id="formSpace"><small>Loading...</small></div><br />
+			<p>Submitted Information:</p>
 			<div id="respSpace" class="html-box">&nbsp;</div><br />
+			<p>Generated HTML (prettified):</p>
 			<pre id="codeSpace" class="html-box prettyprint">&nbsp;</pre>
 		</div>
 		<div class="col-md-1">&nbsp;</div>

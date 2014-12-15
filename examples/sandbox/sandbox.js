@@ -10,13 +10,12 @@
 jQuery(document).ready(function(){
 
 	var default_options= {
-		title: "My Magic Form",
-		action: "#",
-		class: "rsvp_form",
-		id: "",
-		method: "POST",    		//POST or GET
-		validate: "Y",     		//Y or N
-		layout: "horizontal"  	//stacked or horizontal
+		"title": "jsonForms in Action!",
+		"action": "#",
+		"class": "form",
+		"method": "POST",    		
+		"validate": "Y",     		
+		"layout": "horizontal" 
 	};
 	
 	var default_schema = [
@@ -24,8 +23,6 @@ jQuery(document).ready(function(){
 			"name": "key",
 			"label": "Key",
 			"type": "hidden",
-			"id": "key",
-			"class": "key",
 			"value": "1234567",
 			"required": "N"
 		},
@@ -40,8 +37,6 @@ jQuery(document).ready(function(){
 					"label": "User",
 					"type": "text",
 					"id": "username",
-					"class": "",
-					"value": "",
 					"required": "Y",
 					"placeholder": "Your Username"
 				},
@@ -51,7 +46,6 @@ jQuery(document).ready(function(){
 					"type": "password",
 					"id": "pass",
 					"class": "passField",
-					"value": "",
 					"placeholder": "Your Password"
 				}
 			]
@@ -61,9 +55,8 @@ jQuery(document).ready(function(){
 			"label": "Email",
 			"type": "email",
 			"id": "email",
-			"class": "",
-			"value": "",
 			"required": "Y",
+			"value": "test@example.com",
 			"placeholder": "Your Email Address"
 		},
 		{
@@ -71,7 +64,6 @@ jQuery(document).ready(function(){
 			"label": "Dropdown",
 			"type": "dropdown",
 			"id": "dd1",
-			"class": "",
 			"selected":"opt2",
 			"options": [
 				{
@@ -91,7 +83,6 @@ jQuery(document).ready(function(){
 			"label": "Dropdown2",
 			"type": "dropdown",
 			"id": "dd2",
-			"class": "",
 			"options": [
 				{
 					"name":"opt1",
@@ -117,7 +108,6 @@ jQuery(document).ready(function(){
 					"label": "CheckBox1",
 					"type": "checkboxlist",
 					"id": "cd2",
-					"class": "",
 					"options": [
 						{
 							"name":"opt1",
@@ -190,6 +180,9 @@ jQuery(document).ready(function(){
 	
 	function FormSubmitted(e) {
 		e.preventDefault();
+		
+		if(!$(this).valid()) return;
+		
 		var values = $(this).serialize();
 		$('#respSpace').html("Submitted" + decodeURI(values));
 	}
